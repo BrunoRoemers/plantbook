@@ -12,6 +12,7 @@ const SEEDS_DIR = path.join(process.cwd(), 'content/seeds')
 const SeedFrontmatter = z.object({
   name: z.string(),
   description: z.string(),
+  color: z.string(),
 })
 
 const Seed = SeedFrontmatter.extend({
@@ -20,6 +21,8 @@ const Seed = SeedFrontmatter.extend({
 type Seed = z.infer<typeof Seed>
 
 export { Seed }
+
+export const DEFAULT_SEED_COLOR = '#8d7b68'
 
 /*
  * Queries
@@ -36,6 +39,11 @@ export function getAllSeeds(): Seed[] {
       return Seed.parse({ ...data, slug })
     })
     .sort((a, b) => a.name.localeCompare(b.name))
+}
+
+export function getSeedMap(): Map<string, Seed> {
+  const seeds = getAllSeeds()
+  return new Map(seeds.map((s) => [s.slug, s]))
 }
 
 export function getSeedBySlug(slug: string): Seed | null {

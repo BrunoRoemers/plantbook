@@ -18,6 +18,7 @@ describe('seeds', () => {
         slug: 'tomato-cherry',
         name: 'Cherry Tomato',
         description: 'Small, sweet tomatoes perfect for salads and snacking.',
+        color: '#c0392b',
       })
     })
   })
@@ -29,6 +30,7 @@ describe('seeds', () => {
         slug: 'basil',
         name: 'Basil',
         description: 'Fragrant herb essential for Italian cuisine.',
+        color: '#27ae60',
       })
     })
 
