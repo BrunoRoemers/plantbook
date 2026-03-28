@@ -8,7 +8,7 @@ const config: Config = {
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/$1',
   },
-  testNamePattern: '\\.(test|spec)\\.(ts|tsx)$',
+  testMatch: ['<rootDir>/**/*.test.ts', '<rootDir>/**/*.test.tsx'],
 }
 
 export default config
