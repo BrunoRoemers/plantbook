@@ -1,26 +1,6 @@
 import type { CommitFilesParams, CommitResult, FileEntry, GitCommitService } from '@/lib/git'
 import { Octokit } from '@octokit/rest'
-import { z } from 'zod'
-
-/*
- * Schemas
- */
-
-export const GitHubToken = z.string().min(1, 'GitHub token must not be empty').brand('GitHubToken')
-export type GitHubToken = z.infer<typeof GitHubToken>
-
-export const GitHubRepo = z
-  .string()
-  .regex(/^[^/]+\/[^/]+$/, 'Expected format owner/repo')
-  .transform((val) => {
-    const [owner, name] = val.split('/')
-    return { owner, name }
-  })
-export type GitHubRepo = z.infer<typeof GitHubRepo>
-
-/*
- * Octokit implementation
- */
+import { GitHubRepo, GitHubToken } from './schemas'
 
 const MAX_RETRIES = 1
 

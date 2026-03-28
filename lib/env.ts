@@ -1,5 +1,5 @@
-import { SeederEncryptionKeyHex, ServerEncryptionKeyHex } from '@/lib/crypto'
-import { GitHubRepo, GitHubToken } from './github'
+import { SeederEncryptionKeyHex, ServerEncryptionKeyHex } from '@/lib/crypto/schemas'
+import { GitHubRepo, GitHubToken } from '@/lib/git/github/schemas'
 
 export function getServerEncryptionKey(): ServerEncryptionKeyHex {
   return ServerEncryptionKeyHex.parse(process.env.SERVER_ENCRYPTION_KEY)

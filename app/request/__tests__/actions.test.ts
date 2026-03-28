@@ -6,7 +6,7 @@ import { requestTray } from '../actions'
 
 const mockCommitFiles = jest.fn()
 
-jest.mock('@/lib/github', () => ({
+jest.mock('@/lib/git/github', () => ({
   createGitHubCommitService: () => ({ commitFiles: mockCommitFiles }),
 }))
 

@@ -10,7 +10,13 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 - Use **PascalCase** for Zod schemas (e.g. `const Cat = z.object({ ... })`).
 - Declare the inferred type directly below the schema using the same name: `type Cat = z.infer<typeof Cat>;`
-- Use Zod branded types where two similar primitives could be confused (e.g. two encryption keys, two secrets). See `lib/crypto.ts` for examples.
+- Use Zod branded types where two similar primitives could be confused (e.g. two encryption keys, two secrets). See `lib/crypto/schemas.ts` for examples.
+
+## Module structure
+
+Each concern (crypto, git, env, etc.) gets its own folder under `lib/` so it can contain multiple files. `index.ts` provides a clean import path (e.g. `@/lib/crypto`) but is **not a barrel export** — it doesn't re-export from sibling files. Consumers import from whichever file has what they need.
+
+Current examples: `lib/crypto/`, `lib/git/github/`.
 
 ## Code style
 

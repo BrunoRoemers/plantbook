@@ -1,4 +1,4 @@
-import { SeederEncryptedValue, ServerEncryptedValue } from '@/lib/crypto'
+import { SeederEncryptedValue, ServerEncryptedValue } from '@/lib/crypto/schemas'
 import fs from 'fs'
 import matter from 'gray-matter'
 import path from 'path'

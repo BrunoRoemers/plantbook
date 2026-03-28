@@ -1,13 +1,9 @@
 'use server'
 
-import {
-  encryptWithSeederKey,
-  encryptWithServerKey,
-  type SeederEncryptedValue,
-  type ServerEncryptedValue,
-} from '@/lib/crypto'
+import { encryptWithSeederKey, encryptWithServerKey } from '@/lib/crypto'
+import type { SeederEncryptedValue, ServerEncryptedValue } from '@/lib/crypto/schemas'
 import { getGitHubRepo, getGitHubToken } from '@/lib/env'
-import { createGitHubCommitService } from '@/lib/github'
+import { createGitHubCommitService } from '@/lib/git/github'
 import { getNextTrayNumber } from '@/lib/trays'
 import { randomUUID } from 'crypto'
 import { z } from 'zod'
