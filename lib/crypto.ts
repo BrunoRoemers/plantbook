@@ -1,5 +1,6 @@
 import { createCipheriv, createDecipheriv, randomBytes } from 'crypto'
 import { z } from 'zod'
+import { getSeederEncryptionKey, getServerEncryptionKey } from './env'
 
 const ALGORITHM = 'aes-256-gcm'
 const IV_LENGTH = 12
@@ -104,50 +105,24 @@ export function rawDecrypt(encryptedValue: string, hexKey: string): string {
  * Domain wrappers — server key (nurturer_email, nurturer_secret)
  */
 
-export function encryptWithServerKey(
-  plaintext: string,
-  key: ServerEncryptionKeyHex
-): ServerEncryptedValue {
-  return rawEncrypt(plaintext, key) as ServerEncryptedValue
+export function encryptWithServerKey(plaintext: string): ServerEncryptedValue {
+  return rawEncrypt(plaintext, getServerEncryptionKey()) as ServerEncryptedValue
 }
 
-export function encryptNurturerSecret(
-  secret: NurturerSecret,
-  key: ServerEncryptionKeyHex
-): ServerEncryptedValue {
-  return rawEncrypt(secret, key) as ServerEncryptedValue
-}
-
-export function decryptWithServerKey(
-  value: ServerEncryptedValue,
-  key: ServerEncryptionKeyHex
-): string {
-  return rawDecrypt(value, key)
-}
-
-export function decryptNurturerSecret(
-  value: ServerEncryptedValue,
-  key: ServerEncryptionKeyHex
-): NurturerSecret {
-  return rawDecrypt(value, key) as NurturerSecret
+export function decryptWithServerKey(value: ServerEncryptedValue): string {
+  return rawDecrypt(value, getServerEncryptionKey())
 }
 
 /*
  * Domain wrappers — seeder key (seeder_secret)
  */
 
-export function encryptSeederSecret(
-  secret: SeederSecret,
-  key: SeederEncryptionKeyHex
-): SeederEncryptedValue {
-  return rawEncrypt(secret, key) as SeederEncryptedValue
+export function encryptWithSeederKey(plaintext: string): SeederEncryptedValue {
+  return rawEncrypt(plaintext, getSeederEncryptionKey()) as SeederEncryptedValue
 }
 
-export function decryptSeederSecret(
-  value: SeederEncryptedValue,
-  key: SeederEncryptionKeyHex
-): SeederSecret {
-  return rawDecrypt(value, key) as SeederSecret
+export function decryptWithSeederKey(value: SeederEncryptedValue): string {
+  return rawDecrypt(value, getSeederEncryptionKey())
 }
 
 /*

@@ -1,20 +1,12 @@
 'use server'
 
 import {
-  encryptNurturerSecret,
-  encryptSeederSecret,
+  encryptWithSeederKey,
   encryptWithServerKey,
-  type NurturerSecret,
   type SeederEncryptedValue,
-  type SeederSecret,
   type ServerEncryptedValue,
 } from '@/lib/crypto'
-import {
-  getGitHubRepo,
-  getGitHubToken,
-  getSeederEncryptionKey,
-  getServerEncryptionKey,
-} from '@/lib/env'
+import { getGitHubRepo, getGitHubToken } from '@/lib/env'
 import { createGitHubCommitService } from '@/lib/github'
 import { getNextTrayNumber } from '@/lib/trays'
 import { randomUUID } from 'crypto'
@@ -88,17 +80,10 @@ export async function requestTray(
   try {
     const trayNumber = getNextTrayNumber()
 
-    /* Generate secrets */
-    const seederSecret = randomUUID() as SeederSecret
-    const nurturerSecret = randomUUID() as NurturerSecret
-
     /* Encrypt sensitive fields */
-    const serverKey = getServerEncryptionKey()
-    const seederKey = getSeederEncryptionKey()
-
-    const encryptedEmail = encryptWithServerKey(input.email, serverKey)
-    const encryptedNurturerSecret = encryptNurturerSecret(nurturerSecret, serverKey)
-    const encryptedSeederSecret = encryptSeederSecret(seederSecret, seederKey)
+    const encryptedEmail = encryptWithServerKey(input.email)
+    const encryptedSeederSecret = encryptWithSeederKey(randomUUID())
+    const encryptedNurturerSecret = encryptWithServerKey(randomUUID())
 
     /* Build markdown */
     const now = new Date().toISOString()

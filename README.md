@@ -31,6 +31,10 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 
 ## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Several environment variables need to be configured. See `lib/env.ts`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+To generate valid secrets, run:
+
+```bash
+echo -e "SERVER_ENCRYPTION_KEY=$(openssl rand -hex 32)\nSEEDER_ENCRYPTION_KEY=$(openssl rand -hex 32)"
+```
