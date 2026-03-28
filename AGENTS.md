@@ -16,6 +16,14 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 - Use multi-line block comments (`/* ... */`) for file section headers, not `//` line comments.
 - Never use `as` renames in exports — name things correctly at the declaration site.
+- No hardcoded colors or magic values in TSX — pull from content (markdown frontmatter) or named constants in `lib/`.
+- Tray numbers display without zero-padding in the UI (`#1`, not `#001`). Zero-padding is only for directory names (`content/trays/001/`).
+
+## Content conventions
+
+- Seed-specific data (name, description, color, etc.) lives in the seed markdown frontmatter (`content/seeds/*.md`), not in separate TypeScript mapping files.
+- Tray data lives in `content/trays/{number}/index.md` with structured YAML frontmatter and MDX body for timeline updates.
+- When adding per-seed or per-tray attributes, add them as frontmatter fields and read via `lib/seeds.ts` or `lib/trays.ts`.
 
 ## Build pipeline
 
