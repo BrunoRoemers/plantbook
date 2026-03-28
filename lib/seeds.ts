@@ -1,28 +1,9 @@
+import { Seed } from '@/lib/seed-types'
 import fs from 'fs'
 import matter from 'gray-matter'
 import path from 'path'
-import { z } from 'zod'
 
 const SEEDS_DIR = path.join(process.cwd(), 'content/seeds')
-
-/*
- * Schemas
- */
-
-const SeedFrontmatter = z.object({
-  name: z.string(),
-  description: z.string(),
-  color: z.string(),
-})
-
-const Seed = SeedFrontmatter.extend({
-  slug: z.string(),
-})
-type Seed = z.infer<typeof Seed>
-
-export { Seed }
-
-export const DEFAULT_SEED_COLOR = '#8d7b68'
 
 /*
  * Queries
@@ -47,7 +28,8 @@ export function getSeedMap(): Map<string, Seed> {
 }
 
 export function getSeedBySlug(slug: string): Seed | null {
-  const filepath = path.join(SEEDS_DIR, `${slug}.md`)
+  const filepath = path.resolve(SEEDS_DIR, `${slug}.md`)
+  if (!filepath.startsWith(SEEDS_DIR + path.sep)) return null
   if (!fs.existsSync(filepath)) return null
 
   const raw = fs.readFileSync(filepath, 'utf8')

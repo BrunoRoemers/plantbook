@@ -43,7 +43,8 @@ function trayDirName(num: number): string {
  */
 
 export function getTray(num: number): Tray | null {
-  const filepath = path.join(TRAYS_DIR, trayDirName(num), 'index.md')
+  const filepath = path.resolve(TRAYS_DIR, trayDirName(num), 'index.md')
+  if (!filepath.startsWith(TRAYS_DIR + path.sep)) return null
   if (!fs.existsSync(filepath)) return null
 
   const raw = fs.readFileSync(filepath, 'utf8')

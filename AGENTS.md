@@ -16,8 +16,11 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 - Use multi-line block comments (`/* ... */`) for file section headers, not `//` line comments.
 - Never use `as` renames in exports — name things correctly at the declaration site.
+- No separate `export { ... }` statements or re-exports — put the `export` keyword directly on the declaration.
 - No hardcoded colors or magic values in TSX — pull from content (markdown frontmatter) or named constants in `lib/`.
 - Tray numbers display without zero-padding in the UI (`#1`, not `#001`). Zero-padding is only for directory names (`content/trays/001/`).
+- Avoid `as` type casts if possible — write types that are correct so casts aren't needed.
+- Propagate branded types through function signatures — don't widen. If a function accepts an encrypted value, type it as `ServerEncryptedValue`, not `string`.
 
 ## Content conventions
 
@@ -29,3 +32,4 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 - `npm run build` runs `prettier --check . && jest && next build`.
 - Formatting and tests must pass before Vercel deploys. Don't bypass this.
+- **Sandbox limitation:** `next build` (and `tsc`) crash in the Claude Code sandbox due to SWC native binary incompatibility with the emulated ARM64 CPU. The `@next/swc-linux-arm64-gnu` binary segfaults on load. This is a platform issue, not a code issue. Prettier and Jest still work. Verify `next build` on the host machine or let Vercel run it.

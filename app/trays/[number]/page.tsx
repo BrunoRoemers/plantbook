@@ -1,5 +1,6 @@
 import { EggCarton } from '@/components/egg-carton'
-import { DEFAULT_SEED_COLOR, getSeedMap } from '@/lib/seeds'
+import { DEFAULT_SEED_COLOR } from '@/lib/seed-types'
+import { getSeedMap } from '@/lib/seeds'
 import { getAllTrays, getTray } from '@/lib/trays'
 import type { Metadata } from 'next'
 import { MDXRemote } from 'next-mdx-remote/rsc'

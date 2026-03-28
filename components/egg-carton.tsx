@@ -1,4 +1,4 @@
-import { type Seed, DEFAULT_SEED_COLOR } from '@/lib/seeds'
+import { type Seed, DEFAULT_SEED_COLOR } from '@/lib/seed-types'
 import { cn } from '@/lib/utils'
 
 type EggCartonProps = {

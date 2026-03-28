@@ -16,6 +16,12 @@ export default function Home() {
         <p className="mt-2 text-muted-foreground">
           Seed trays from request to harvest — a community garden logbook.
         </p>
+        <Link
+          href="/request"
+          className="mt-4 inline-flex items-center rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+        >
+          Request a tray
+        </Link>
       </header>
 
       <main className="mx-auto w-full max-w-4xl flex-1 px-4 py-8 sm:px-6">
