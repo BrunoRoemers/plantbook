@@ -15,3 +15,9 @@ This version has breaking changes — APIs, conventions, and file structure may 
 ## Code style
 
 - Use multi-line block comments (`/* ... */`) for file section headers, not `//` line comments.
+- Never use `as` renames in exports — name things correctly at the declaration site.
+
+## Build pipeline
+
+- `npm run build` runs `prettier --check . && jest && next build`.
+- Formatting and tests must pass before Vercel deploys. Don't bypass this.
