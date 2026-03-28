@@ -35,6 +35,7 @@ No database. No object storage. The git repo **is** the database.
 ### GitHub API Commit Flow
 
 To create a commit via GitHub API:
+
 1. `GET /repos/{owner}/{repo}/git/ref/heads/main` — get current HEAD SHA
 2. `GET /repos/{owner}/{repo}/git/commits/{sha}` — get the tree SHA
 3. `POST /repos/{owner}/{repo}/git/blobs` — upload image(s) as base64 blobs
@@ -57,11 +58,11 @@ Race condition handling: if step 6 fails (someone else committed), retry from st
 
 The repo is public. Three fields must never appear in plaintext:
 
-| Field | Encrypted with | Who can decrypt |
-|---|---|---|
-| `nurturer_email` | `ENCRYPTION_KEY` | Server only |
-| `nurturer_secret` | `ENCRYPTION_KEY` | Server only |
-| `seeder_secret` | `SEEDER_ENCRYPTION_KEY` | Server + Bruno's CLI |
+| Field             | Encrypted with          | Who can decrypt      |
+| ----------------- | ----------------------- | -------------------- |
+| `nurturer_email`  | `ENCRYPTION_KEY`        | Server only          |
+| `nurturer_secret` | `ENCRYPTION_KEY`        | Server only          |
+| `seeder_secret`   | `SEEDER_ENCRYPTION_KEY` | Server + Bruno's CLI |
 
 ### Implementation
 
@@ -83,6 +84,7 @@ npx ts-node scripts/seeder-cli.ts secret 42
 ```
 
 The CLI:
+
 1. Reads `content/trays/042/index.md` from local git checkout
 2. Decrypts `seeder_secret` using `SEEDER_ENCRYPTION_KEY` (from `.env.local` or env var)
 3. Either prints the secret or opens `plantbook.pod.brussels/trays/42?secret=<decrypted>` in the browser
@@ -90,6 +92,7 @@ The CLI:
 ### Secret Validation Flow (server action)
 
 When a request comes in with `?secret=xxx`:
+
 1. Server action reads the tray's raw markdown from GitHub API
 2. Decrypts `seeder_secret` with `SEEDER_ENCRYPTION_KEY` and compares
 3. If no match, decrypts `nurturer_secret` with `ENCRYPTION_KEY` and compares
@@ -98,6 +101,7 @@ When a request comes in with `?secret=xxx`:
 ### QR Code Flow
 
 When the seeder visits a tray page with the seeder secret in the URL:
+
 - The page shows the normal tray view + update form
 - **Additionally**, a "Print QR Code" button appears
 - The QR code contains: `https://plantbook.pod.brussels/trays/{number}?secret={nurturer_secret}`
@@ -171,13 +175,13 @@ created_at: 2026-04-01T12:00:00Z
 
 ## Day 0 — Seeds Requested
 
-*Posted by nurturer on 2026-04-01*
+_Posted by nurturer on 2026-04-01_
 
 I'd love a tray full of herbs and cherry tomatoes for my balcony garden!
 
 ## Day 3 — Planted!
 
-*Posted by seeder on 2026-04-04*
+_Posted by seeder on 2026-04-04_
 
 All planted and watered. Keeping them under the grow light.
 
@@ -185,7 +189,7 @@ All planted and watered. Keeping them under the grow light.
 
 ## Day 12 — Handover
 
-*Posted by seeder on 2026-04-13*
+_Posted by seeder on 2026-04-13_
 
 Everything has sprouted nicely. Handing over to Alice today!
 
@@ -257,11 +261,13 @@ The nurturer uses this page. No secrets are displayed after submission.
 ### Why `next-mdx-remote/rsc` instead of `@next/mdx` for content?
 
 `@next/mdx` is designed for MDX files **colocated inside `app/`** as route segments. It does not support:
+
 - Dynamic loading of MDX from a `content/` directory
 - Frontmatter parsing (requires additional remark plugins)
 - `generateStaticParams`-based dynamic routes from a file listing
 
 `next-mdx-remote/rsc` is the standard pattern for content-directory MDX in Next.js App Router:
+
 - Works natively with React Server Components
 - Pairs with `gray-matter` for frontmatter
 - Supports remark/rehype plugin chains
