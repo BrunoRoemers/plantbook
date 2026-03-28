@@ -65,18 +65,6 @@ export const NurturerSecret = z.string().brand('NurturerSecret')
 export type NurturerSecret = z.infer<typeof NurturerSecret>
 
 /*
- * Key parsers — the only way to obtain branded keys
- */
-
-export function parseEncryptionKey(raw: string): ServerEncryptionKeyHex {
-  return ServerEncryptionKeyHex.parse(raw)
-}
-
-export function parseSeederEncryptionKey(raw: string): SeederEncryptionKeyHex {
-  return SeederEncryptionKeyHex.parse(raw)
-}
-
-/*
  * Low-level encrypt/decrypt (unbranded, internal)
  */
 

@@ -49,7 +49,7 @@ Race condition handling: if step 6 fails (someone else committed), retry from st
 
 - `GITHUB_TOKEN` — Personal access token with repo write access
 - `GITHUB_REPO` — e.g. `bruno/plantbook`
-- `ENCRYPTION_KEY` — Server-only key for encrypting nurturer email and nurturer secret (AES-256-GCM, 32 bytes hex-encoded)
+- `SERVER_ENCRYPTION_KEY` — Server-only key for encrypting nurturer email and nurturer secret (AES-256-GCM, 32 bytes hex-encoded)
 - `SEEDER_ENCRYPTION_KEY` — Shared key known by server AND Bruno's CLI, for encrypting seeder secret (AES-256-GCM, 32 bytes hex-encoded)
 
 ---
@@ -60,8 +60,8 @@ The repo is public. Three fields must never appear in plaintext:
 
 | Field             | Encrypted with          | Who can decrypt      |
 | ----------------- | ----------------------- | -------------------- |
-| `nurturer_email`  | `ENCRYPTION_KEY`        | Server only          |
-| `nurturer_secret` | `ENCRYPTION_KEY`        | Server only          |
+| `nurturer_email`  | `SERVER_ENCRYPTION_KEY` | Server only          |
+| `nurturer_secret` | `SERVER_ENCRYPTION_KEY` | Server only          |
 | `seeder_secret`   | `SEEDER_ENCRYPTION_KEY` | Server + Bruno's CLI |
 
 ### Implementation
@@ -95,7 +95,7 @@ When a request comes in with `?secret=xxx`:
 
 1. Server action reads the tray's raw markdown from GitHub API
 2. Decrypts `seeder_secret` with `SEEDER_ENCRYPTION_KEY` and compares
-3. If no match, decrypts `nurturer_secret` with `ENCRYPTION_KEY` and compares
+3. If no match, decrypts `nurturer_secret` with `SERVER_ENCRYPTION_KEY` and compares
 4. If match found, determines role (seeder vs nurturer) and allows the action
 
 ### QR Code Flow
@@ -105,7 +105,7 @@ When the seeder visits a tray page with the seeder secret in the URL:
 - The page shows the normal tray view + update form
 - **Additionally**, a "Print QR Code" button appears
 - The QR code contains: `https://plantbook.pod.brussels/trays/{number}?secret={nurturer_secret}`
-- To generate this: the server action decrypts the nurturer_secret (using `ENCRYPTION_KEY`) and returns it to the authenticated seeder so the QR code can be rendered client-side
+- To generate this: the server action decrypts the nurturer_secret (using `SERVER_ENCRYPTION_KEY`) and returns it to the authenticated seeder so the QR code can be rendered client-side
 - The seeder prints this QR code and sticks it on the physical egg carton before handing it to the nurturer
 
 ---
@@ -332,8 +332,8 @@ All work should be done in small, focused PRs that are easy to review.
     - Validate form data
     - Determine next tray number
     - Generate seeder_secret and nurturer_secret (`crypto.randomUUID`)
-    - Encrypt email with `ENCRYPTION_KEY`
-    - Encrypt nurturer_secret with `ENCRYPTION_KEY`
+    - Encrypt email with `SERVER_ENCRYPTION_KEY`
+    - Encrypt nurturer_secret with `SERVER_ENCRYPTION_KEY`
     - Encrypt seeder_secret with `SEEDER_ENCRYPTION_KEY`
     - Create the tray markdown file
     - Commit to GitHub via API
@@ -378,7 +378,7 @@ All work should be done in small, focused PRs that are easy to review.
 ## Security Considerations
 
 - **Public repo**: All sensitive data (email, secrets) is encrypted with AES-256-GCM before being committed. Plaintext never touches the repo.
-- **Two encryption keys**: `ENCRYPTION_KEY` (server-only, protects nurturer data) and `SEEDER_ENCRYPTION_KEY` (server + Bruno CLI, protects seeder access)
+- **Two encryption keys**: `SERVER_ENCRYPTION_KEY` (server-only, protects nurturer data) and `SEEDER_ENCRYPTION_KEY` (server + Bruno CLI, protects seeder access)
 - **No build-time stripping**: Encrypted ciphertext is present in static HTML, same as in the public git repo. This is harmless — the ciphertext is meaningless without the keys.
 - **Secret validation**: Server actions decrypt secrets server-side to validate. Secrets are never compared in plaintext on the client.
 - **GitHub token**: Stored as Vercel env var, never exposed to client.
