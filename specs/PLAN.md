@@ -192,8 +192,6 @@ Everything has sprouted nicely. Handing over to Alice today!
 ![Handover photo](images/day-12-001.jpg)
 ```
 
-**At build time:** `nurturer_email`, `seeder_secret`, and `nurturer_secret` are stripped from the frontmatter before rendering to static HTML. They exist only in the git repo (encrypted) and are only decrypted server-side in server actions.
-
 ---
 
 ## Pages
@@ -305,7 +303,7 @@ All work should be done in small, focused PRs that are easy to review.
 
 9. Build encryption/decryption utilities (`lib/crypto.ts`) — AES-256-GCM encrypt/decrypt functions
 10. Build seed catalog utilities (`lib/seeds.ts`) — list all seeds, get seed by slug
-11. Build tray data utilities (`lib/trays.ts`) — list trays, get tray by number, get next tray number, parse frontmatter (stripping sensitive fields for public use)
+11. Build tray data utilities (`lib/trays.ts`) — list trays, get tray by number, get next tray number, parse frontmatter
 12. Write tests for crypto and content utilities
 
 ### Phase 3: Static Pages
@@ -375,7 +373,7 @@ All work should be done in small, focused PRs that are easy to review.
 
 - **Public repo**: All sensitive data (email, secrets) is encrypted with AES-256-GCM before being committed. Plaintext never touches the repo.
 - **Two encryption keys**: `ENCRYPTION_KEY` (server-only, protects nurturer data) and `SEEDER_ENCRYPTION_KEY` (server + Bruno CLI, protects seeder access)
-- **Build-time stripping**: Encrypted fields are excluded from static HTML output. Even the encrypted ciphertext is not exposed to the public site.
+- **No build-time stripping**: Encrypted ciphertext is present in static HTML, same as in the public git repo. This is harmless — the ciphertext is meaningless without the keys.
 - **Secret validation**: Server actions decrypt secrets server-side to validate. Secrets are never compared in plaintext on the client.
 - **GitHub token**: Stored as Vercel env var, never exposed to client.
 - **Image validation**: Server action validates file type and size before committing.
