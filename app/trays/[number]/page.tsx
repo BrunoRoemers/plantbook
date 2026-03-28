@@ -1,11 +1,11 @@
+import { EggCarton } from '@/components/egg-carton'
+import { DEFAULT_SEED_COLOR, getSeedMap } from '@/lib/seeds'
+import { getAllTrays, getTray } from '@/lib/trays'
 import type { Metadata } from 'next'
+import { MDXRemote } from 'next-mdx-remote/rsc'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { MDXRemote } from 'next-mdx-remote/rsc'
 import remarkGfm from 'remark-gfm'
-import { getAllTrays, getTray } from '@/lib/trays'
-import { getSeedMap, DEFAULT_SEED_COLOR } from '@/lib/seeds'
-import { EggCarton } from '@/components/egg-carton'
 
 export async function generateStaticParams() {
   const trays = getAllTrays()

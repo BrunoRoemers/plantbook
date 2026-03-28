@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Lora, Inter } from 'next/font/google'
+import { Inter, Lora } from 'next/font/google'
 import './globals.css'
 
 const lora = Lora({

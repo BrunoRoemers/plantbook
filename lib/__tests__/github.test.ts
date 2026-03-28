@@ -1,4 +1,4 @@
-import { createGitHubCommitService, GitHubToken, GitHubRepo } from '@/lib/github'
+import { createGitHubCommitService, GitHubRepo, GitHubToken } from '@/lib/github'
 
 /*
  * Mock Octokit

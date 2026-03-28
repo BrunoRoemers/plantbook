@@ -1,4 +1,4 @@
-import { getTray, getAllTrays, getNextTrayNumber } from '@/lib/trays'
+import { getAllTrays, getNextTrayNumber, getTray } from '@/lib/trays'
 
 describe('trays', () => {
   describe('getTray', () => {

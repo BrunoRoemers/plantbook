@@ -1,7 +1,7 @@
-import Link from 'next/link'
-import { getAllTrays } from '@/lib/trays'
-import { getSeedMap } from '@/lib/seeds'
 import { EggCarton } from '@/components/egg-carton'
+import { getSeedMap } from '@/lib/seeds'
+import { getAllTrays } from '@/lib/trays'
+import Link from 'next/link'
 
 export default function Home() {
   const trays = getAllTrays()
