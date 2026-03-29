@@ -143,6 +143,7 @@ describe('requestTray success', () => {
 describe('requestTray GitHub error', () => {
   it('returns a generic error on commit failure', async () => {
     mockCommitFiles.mockRejectedValue(new Error('API down'))
+    jest.spyOn(console, 'error').mockImplementation(() => {})
 
     const result = await requestTray(null, makeFormData())
     expect(result.success).toBe(false)
