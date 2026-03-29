@@ -28,7 +28,7 @@ export function getGitHubRepo(): GitHubRepo {
   throw new Error('failed to get GitHub repo')
 }
 
-export function getGitHubBranch(): string {
+export function getGitHubBranch(): GitHubBranch {
   if (process.env.GITHUB_BRANCH) {
     return GitHubBranch.parse(process.env.GITHUB_BRANCH)
   }
