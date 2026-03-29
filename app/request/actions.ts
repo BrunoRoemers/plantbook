@@ -107,7 +107,7 @@ export async function requestTray(
     })
 
     await git.commitFiles({
-      files: [{ path: filePath, content: markdown }],
+      files: [{ path: filePath, content: markdown, mustNotExist: true }],
       message: `Add tray #${trayNumber} for ${input.name}`,
     })
 

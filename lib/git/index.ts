@@ -8,6 +8,7 @@ export const FileEntry = z.object({
   path: z.string(),
   content: z.string(),
   encoding: z.enum(['utf-8', 'base64']).default('utf-8'),
+  mustNotExist: z.boolean().optional(),
 })
 export type FileEntry = z.input<typeof FileEntry>
 
