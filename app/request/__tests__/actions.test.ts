@@ -10,6 +10,10 @@ jest.mock('@/lib/git/github', () => ({
   createGitHubCommitService: () => ({ commitFiles: mockCommitFiles }),
 }))
 
+jest.mock('@/lib/trays', () => ({
+  getNextTrayNumber: () => 42,
+}))
+
 jest.mock('@/lib/env', () => ({
   getServerEncryptionKey: () => 'a'.repeat(64),
   getSeederEncryptionKey: () => 'b'.repeat(64),
@@ -98,13 +102,13 @@ describe('requestTray success', () => {
     expect(result.success).toBe(true)
     if (!result.success) return
 
-    expect(result.trayNumber).toBe(2) // content/trays/001 already exists
-    expect(result.trayUrl).toBe('/trays/2')
+    expect(result.trayNumber).toBe(42)
+    expect(result.trayUrl).toBe('/trays/42')
 
     expect(mockCommitFiles).toHaveBeenCalledTimes(1)
     const call = mockCommitFiles.mock.calls[0][0]
     expect(call.files).toHaveLength(1)
-    expect(call.files[0].path).toBe('content/trays/002/index.md')
+    expect(call.files[0].path).toBe('content/trays/042/index.md')
     expect(call.message).toContain('Alice')
   })
 
