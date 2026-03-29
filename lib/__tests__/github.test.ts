@@ -1,5 +1,5 @@
 import { createGitHubCommitService } from '@/lib/git/github'
-import { GitHubRepo, GitHubToken } from '@/lib/git/github/schemas'
+import { GitHubBranch, GitHubRepo, GitHubToken } from '@/lib/git/github/schemas'
 
 /*
  * Mock Octokit
@@ -7,6 +7,7 @@ import { GitHubRepo, GitHubToken } from '@/lib/git/github/schemas'
 
 const mockGetRef = jest.fn()
 const mockGetCommit = jest.fn()
+const mockGetTree = jest.fn()
 const mockCreateBlob = jest.fn()
 const mockCreateTree = jest.fn()
 const mockCreateCommit = jest.fn()
@@ -17,6 +18,7 @@ jest.mock('@octokit/rest', () => ({
     git: {
       getRef: mockGetRef,
       getCommit: mockGetCommit,
+      getTree: mockGetTree,
       createBlob: mockCreateBlob,
       createTree: mockCreateTree,
       createCommit: mockCreateCommit,
@@ -42,7 +44,7 @@ beforeEach(() => {
 
 const token = GitHubToken.parse('ghp_test')
 const repo = GitHubRepo.parse('test/repo')
-const service = createGitHubCommitService({ token, repo, branch: 'main' })
+const service = createGitHubCommitService({ token, repo, branch: GitHubBranch.parse('main') })
 
 describe('branded types', () => {
   it('rejects an invalid repo format', () => {
@@ -200,7 +202,11 @@ describe('commitFiles', () => {
   it('uses a custom branch when provided', async () => {
     setupHappyPath()
 
-    const branchService = createGitHubCommitService({ token, repo, branch: 'preview/test' })
+    const branchService = createGitHubCommitService({
+      token,
+      repo,
+      branch: GitHubBranch.parse('preview/test'),
+    })
     await branchService.commitFiles({
       files: [{ path: 'readme.md', content: 'hello' }],
       message: 'test on branch',
@@ -210,5 +216,49 @@ describe('commitFiles', () => {
     expect(mockUpdateRef).toHaveBeenCalledWith(
       expect.objectContaining({ ref: 'heads/preview/test' })
     )
+  })
+
+  it('succeeds when mustNotExist file is absent from the tree', async () => {
+    setupHappyPath()
+    mockGetTree.mockResolvedValue({
+      data: { tree: [{ path: 'content/trays/001/index.md', type: 'blob' }] },
+    })
+
+    const result = await service.commitFiles({
+      files: [{ path: 'content/trays/002/index.md', content: 'new tray', mustNotExist: true }],
+      message: 'Add tray #2',
+    })
+
+    expect(result.sha).toBe('new789')
+    expect(mockGetTree).toHaveBeenCalledWith(
+      expect.objectContaining({ tree_sha: 'tree456', recursive: 'true' })
+    )
+  })
+
+  it('throws when mustNotExist file already exists in the tree', async () => {
+    setupHappyPath()
+    mockGetTree.mockResolvedValue({
+      data: { tree: [{ path: 'content/trays/002/index.md', type: 'blob' }] },
+    })
+
+    await expect(
+      service.commitFiles({
+        files: [{ path: 'content/trays/002/index.md', content: 'duplicate', mustNotExist: true }],
+        message: 'Add tray #2',
+      })
+    ).rejects.toThrow('File already exists: content/trays/002/index.md')
+
+    expect(mockCreateBlob).not.toHaveBeenCalled()
+  })
+
+  it('does not fetch the tree when no files have mustNotExist', async () => {
+    setupHappyPath()
+
+    await service.commitFiles({
+      files: [{ path: 'readme.md', content: 'hello' }],
+      message: 'test',
+    })
+
+    expect(mockGetTree).not.toHaveBeenCalled()
   })
 })

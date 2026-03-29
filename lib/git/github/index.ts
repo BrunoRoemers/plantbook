@@ -56,6 +56,27 @@ async function doCommit(
     },
   } = await octokit.git.getCommit({ owner: repo.owner, repo: repo.name, commit_sha: headSha })
 
+  /* Step 2b: Verify mustNotExist files are absent from the tree */
+  const guarded = files.filter((f) => f.mustNotExist)
+  if (guarded.length > 0) {
+    const {
+      data: { tree: treeEntries },
+    } = await octokit.git.getTree({
+      owner: repo.owner,
+      repo: repo.name,
+      tree_sha: baseTreeSha,
+      recursive: 'true',
+    })
+
+    const existingPaths = new Set(treeEntries.map((e: { path?: string }) => e.path))
+
+    for (const file of guarded) {
+      if (existingPaths.has(file.path)) {
+        throw new Error(`File already exists: ${file.path}`)
+      }
+    }
+  }
+
   /* Step 3: Create blobs for each file */
   const treeItems = await Promise.all(
     files.map(async (file) => {
