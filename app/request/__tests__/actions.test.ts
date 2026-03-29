@@ -19,6 +19,7 @@ jest.mock('@/lib/env', () => ({
   getSeederEncryptionKey: () => 'b'.repeat(64),
   getGitHubToken: () => 'ghp_test',
   getGitHubRepo: () => ({ owner: 'test', name: 'repo' }),
+  getGitHubBranch: () => 'main',
 }))
 
 /*

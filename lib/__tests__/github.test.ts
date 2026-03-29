@@ -42,7 +42,7 @@ beforeEach(() => {
 
 const token = GitHubToken.parse('ghp_test')
 const repo = GitHubRepo.parse('test/repo')
-const service = createGitHubCommitService({ token, repo })
+const service = createGitHubCommitService({ token, repo, branch: 'main' })
 
 describe('branded types', () => {
   it('rejects an invalid repo format', () => {
@@ -195,5 +195,20 @@ describe('commitFiles', () => {
     })
 
     expect(mockCreateBlob).toHaveBeenCalledWith(expect.objectContaining({ encoding: 'utf-8' }))
+  })
+
+  it('uses a custom branch when provided', async () => {
+    setupHappyPath()
+
+    const branchService = createGitHubCommitService({ token, repo, branch: 'preview/test' })
+    await branchService.commitFiles({
+      files: [{ path: 'readme.md', content: 'hello' }],
+      message: 'test on branch',
+    })
+
+    expect(mockGetRef).toHaveBeenCalledWith(expect.objectContaining({ ref: 'heads/preview/test' }))
+    expect(mockUpdateRef).toHaveBeenCalledWith(
+      expect.objectContaining({ ref: 'heads/preview/test' })
+    )
   })
 })

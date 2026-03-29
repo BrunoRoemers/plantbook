@@ -11,3 +11,9 @@ export const GitHubRepo = z
     return { owner, name }
   })
 export type GitHubRepo = z.infer<typeof GitHubRepo>
+
+export const GitHubBranch = z
+  .string()
+  .min(1, 'GitHub branch must not be empty')
+  .brand('GitHubBranch')
+export type GitHubBranch = z.infer<typeof GitHubBranch>

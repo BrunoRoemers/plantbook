@@ -18,6 +18,10 @@ Each concern (crypto, git, env, etc.) gets its own folder under `lib/` so it can
 
 Current examples: `lib/crypto/`, `lib/git/github/`.
 
+## Icons
+
+- Always use [Lucide React](https://lucide.dev/) (`lucide-react`) for icons. Don't inline SVGs or use other icon libraries.
+
 ## Code style
 
 - Use multi-line block comments (`/* ... */`) for file section headers, not `//` line comments.
