@@ -1,12 +1,13 @@
 import type { CommitFilesParams, CommitResult, FileEntry, GitCommitService } from '@/lib/git'
 import { Octokit } from '@octokit/rest'
-import { GitHubRepo, GitHubToken } from './schemas'
+import { GitHubBranch, GitHubRepo, GitHubToken } from './schemas'
 
 const MAX_RETRIES = 1
 
 export function createGitHubCommitService(options: {
   token: GitHubToken
   repo: GitHubRepo
+  branch: GitHubBranch
 }): GitCommitService {
   const octokit = new Octokit({ auth: options.token })
 
@@ -16,7 +17,7 @@ export function createGitHubCommitService(options: {
 
       while (true) {
         try {
-          return await doCommit(octokit, options.repo, files, message)
+          return await doCommit(octokit, options.repo, options.branch, files, message)
         } catch (error: unknown) {
           const isRaceCondition =
             error instanceof Error &&
@@ -37,6 +38,7 @@ export function createGitHubCommitService(options: {
 async function doCommit(
   octokit: Octokit,
   repo: GitHubRepo,
+  branch: GitHubBranch,
   files: FileEntry[],
   message: string
 ): Promise<CommitResult> {
@@ -45,7 +47,7 @@ async function doCommit(
     data: {
       object: { sha: headSha },
     },
-  } = await octokit.git.getRef({ owner: repo.owner, repo: repo.name, ref: 'heads/main' })
+  } = await octokit.git.getRef({ owner: repo.owner, repo: repo.name, ref: `heads/${branch}` })
 
   /* Step 2: Get the tree SHA from HEAD commit */
   const {
@@ -100,7 +102,7 @@ async function doCommit(
   await octokit.git.updateRef({
     owner: repo.owner,
     repo: repo.name,
-    ref: 'heads/main',
+    ref: `heads/${branch}`,
     sha: newCommitSha,
   })
 

@@ -2,7 +2,7 @@
 
 import { encryptWithSeederKey, encryptWithServerKey } from '@/lib/crypto'
 import type { SeederEncryptedValue, ServerEncryptedValue } from '@/lib/crypto/schemas'
-import { getGitHubRepo, getGitHubToken } from '@/lib/env'
+import { getGitHubBranch, getGitHubRepo, getGitHubToken } from '@/lib/env'
 import { createGitHubCommitService } from '@/lib/git/github'
 import { getNextTrayNumber } from '@/lib/trays'
 import { randomUUID } from 'crypto'
@@ -103,6 +103,7 @@ export async function requestTray(
     const git = createGitHubCommitService({
       token: getGitHubToken(),
       repo: getGitHubRepo(),
+      branch: getGitHubBranch(),
     })
 
     await git.commitFiles({

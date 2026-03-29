@@ -1,11 +1,15 @@
 import { EggCarton } from '@/components/egg-carton'
+import { getGitHubBranch, getGitHubRepo } from '@/lib/env'
 import { getSeedMap } from '@/lib/seeds'
 import { getAllTrays } from '@/lib/trays'
+import { GitBranch } from 'lucide-react'
 import Link from 'next/link'
 
 export default function Home() {
   const trays = getAllTrays()
   const seedMap = getSeedMap()
+  const repo = getGitHubRepo()
+  const branch = getGitHubBranch()
 
   return (
     <div className="flex flex-1 flex-col">
@@ -69,6 +73,18 @@ export default function Home() {
           </div>
         )}
       </main>
+
+      <footer className="border-t border-border bg-card px-6 py-8 text-center">
+        <a
+          href={`https://github.com/${repo.owner}/${repo.name}/tree/${branch}`}
+          className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <GitBranch className="h-3.5 w-3.5" />
+          {branch}
+        </a>
+      </footer>
     </div>
   )
 }
