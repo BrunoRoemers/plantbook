@@ -1,30 +1,30 @@
 ---
 number: 3
 nurturer_name: Bruno
-nurturer_email: 'encrypted:KM8J+rCQp6NoTNpI:t1vlJs+Nv8AlT9L43COvMA==:lNwukC6UjuYDosikqcC11w=='
-seeder_secret: 'encrypted:fLCQ3hVr6cn6+X7I:+03343LYpft51SXsPiVJLpd9G9L09OMRLWRnil9WFNJBDpTf:ZxNJRIW7W9aUJEfhRn6krA=='
-nurturer_secret: 'encrypted:ixjRGgCTk4KLIiNC:2NM2ygbCsefdvKFpPCDaFcx3XxeQvjcUFrVC6kj++qtOPfbK:P5O1DMdY622cg4rLQoB8Vw=='
+nurturer_email: 'encrypted:7cGFTAMOltrdfxHj:0BomzMsyOxF7KFnd7tDuwQ==:YzEnhOXfArrUlyusESTkOw=='
+seeder_secret: 'encrypted:8DmFKG52wHiKZSO6:WWTnDitPVY9qu+e+Y/k9Sgb250pE7kesVwAJgwKbwfG+mIBr:o4kRfHrGbSXDQxOGBu2MTA=='
+nurturer_secret: 'encrypted:p1BezprdmDKSDxBl:C8dSjtkL5bQzmHoQ2Lbq2zRtJ90rcX1YS0q2lJezNHW00whb:IrF7xkAF2mGK47mZBtlYiA=='
 contribution_amount: 1
 contribution_currency: CHT
 cells_per_row: 6
 cells:
+  - tomato-cherry
+  - tomato-cherry
+  - tomato-cherry
+  - tomato-cherry
+  - tomato-cherry
+  - mint
   - basil
   - basil
-  - basil
-  - basil
-  - basil
-  - basil
-  - basil
-  - basil
-  - basil
-  - basil
-  - basil
-  - basil
-created_at: 2026-03-29T22:24:41.863Z
+  - parsley
+  - parsley
+  - parsley
+  - mint
+created_at: 2026-03-29T13:31:28.379Z
 ---
 
 ## Day 0 — Seeds Requested
 
 _Posted by nurturer on 2026-03-29_
 
-Tray requested!
+test
