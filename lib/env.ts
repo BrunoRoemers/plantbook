@@ -19,7 +19,7 @@ export function getGitHubRepo(): GitHubRepo {
     return GitHubRepo.parse(process.env.GITHUB_REPO)
   }
 
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.GIT_CLI_FALLBACK === 'true') {
     const url = execSync('git remote get-url origin', { encoding: 'utf-8' }).trim()
     const match = url.match(/github\.com[:/](.+?\/.+?)(?:\.git)?$/)
     if (match) return GitHubRepo.parse(match[1])
@@ -37,7 +37,7 @@ export function getGitHubBranch(): GitHubBranch {
     return GitHubBranch.parse(process.env.VERCEL_GIT_COMMIT_REF)
   }
 
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.GIT_CLI_FALLBACK === 'true') {
     // NOTE: We check the current branch on every call so the result is accurate even
     //       if the developer changes branches after the dev server is started.
     const branch = execSync('git branch --show-current', { encoding: 'utf-8' }).trim()
