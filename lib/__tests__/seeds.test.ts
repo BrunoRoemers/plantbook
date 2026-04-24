@@ -17,8 +17,11 @@ describe('seeds', () => {
       expect(arugula).toEqual({
         slug: 'arugula-speedy',
         name: 'Arugula',
+        variety: 'Speedy',
         description:
           'Peppery, deeply lobed leaves with an intense nutty bite that elevates any salad.',
+        expiry: 2026,
+        quantity: '1g',
         color: '#558B2F',
       })
     })
@@ -30,7 +33,10 @@ describe('seeds', () => {
       expect(seed).toEqual({
         slug: 'spinach',
         name: 'Spinach',
+        variety: 'Winterreuzen',
         description: 'Hardy winter spinach with large, dark leaves rich in iron and flavor.',
+        expiry: 2029,
+        quantity: '14g',
         color: '#2E7D32',
       })
     })
