@@ -24,7 +24,7 @@ describe('trays', () => {
     it('preserves cells array', () => {
       const tray = getTray(1)
       expect(tray!.frontmatter.cells).toHaveLength(12)
-      expect(tray!.frontmatter.cells[0]).toBe('tomato-cherry')
+      expect(tray!.frontmatter.cells[0]).toBe('arugula-speedy')
     })
   })
 

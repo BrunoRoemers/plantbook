@@ -6,7 +6,10 @@ import { z } from 'zod'
 
 const SeedFrontmatter = z.object({
   name: z.string(),
+  variety: z.string(),
   description: z.string(),
+  expiry: z.number(),
+  quantity: z.string(),
   color: z.string(),
 })
 

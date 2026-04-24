@@ -42,9 +42,9 @@ function makeFormData(overrides: Record<string, string> = {}): FormData {
     fd.set(key, value)
   }
 
-  /* Fill all 12 cells with basil by default */
+  /* Fill all 12 cells with arugula-speedy by default */
   for (let i = 0; i < 12; i++) {
-    fd.set(`cell-${i}`, overrides[`cell-${i}`] ?? 'basil')
+    fd.set(`cell-${i}`, overrides[`cell-${i}`] ?? 'arugula-speedy')
   }
 
   return fd
@@ -157,7 +157,7 @@ describe('requestTray sanitization', () => {
   })
 
   it('neutralizes YAML injection via cell values', async () => {
-    await requestTray(null, makeFormData({ 'cell-0': "basil\ncreated_at: '1999-01-01'" }))
+    await requestTray(null, makeFormData({ 'cell-0': "arugula-speedy\ncreated_at: '1999-01-01'" }))
 
     const markdown = mockCommitFiles.mock.calls[0][0].files[0].content
     const fmLines = markdown.split('---')[1].split('\n')
