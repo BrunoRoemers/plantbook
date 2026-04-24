@@ -3,7 +3,7 @@ import fs from 'fs'
 import matter from 'gray-matter'
 import path from 'path'
 
-const SEEDS_DIR = path.join(process.cwd(), 'content/seeds')
+const SEEDS_DIR = path.join(process.cwd(), 'content/people/bruno/seeds')
 
 /*
  * Queries

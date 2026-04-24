@@ -13,24 +13,25 @@ describe('seeds', () => {
 
     it('parses frontmatter correctly', () => {
       const seeds = getAllSeeds()
-      const tomato = seeds.find((s) => s.slug === 'tomato-cherry')
-      expect(tomato).toEqual({
-        slug: 'tomato-cherry',
-        name: 'Cherry Tomato',
-        description: 'Small, sweet tomatoes perfect for salads and snacking.',
-        color: '#c0392b',
+      const arugula = seeds.find((s) => s.slug === 'arugula-speedy')
+      expect(arugula).toEqual({
+        slug: 'arugula-speedy',
+        name: 'Arugula',
+        description:
+          'Peppery, deeply lobed leaves with an intense nutty bite that elevates any salad.',
+        color: '#558B2F',
       })
     })
   })
 
   describe('getSeedBySlug', () => {
     it('returns a seed by slug', () => {
-      const seed = getSeedBySlug('basil')
+      const seed = getSeedBySlug('spinach')
       expect(seed).toEqual({
-        slug: 'basil',
-        name: 'Basil',
-        description: 'Fragrant herb essential for Italian cuisine.',
-        color: '#27ae60',
+        slug: 'spinach',
+        name: 'Spinach',
+        description: 'Hardy winter spinach with large, dark leaves rich in iron and flavor.',
+        color: '#2E7D32',
       })
     })
 

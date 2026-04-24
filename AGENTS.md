@@ -34,7 +34,7 @@ Current examples: `lib/crypto/`, `lib/git/github/`.
 
 ## Content conventions
 
-- Seed-specific data (name, description, color, etc.) lives in the seed markdown frontmatter (`content/seeds/*.md`), not in separate TypeScript mapping files.
+- Seed-specific data (name, description, color, etc.) lives in the seed markdown frontmatter (`content/people/{person}/seeds/*.md`), not in separate TypeScript mapping files. The active seeder is Bruno, so `lib/seeds.ts` reads from `content/people/bruno/seeds/`.
 - Tray data lives in `content/trays/{number}/index.md` with structured YAML frontmatter and MDX body for timeline updates.
 - When adding per-seed or per-tray attributes, add them as frontmatter fields and read via `lib/seeds.ts` or `lib/trays.ts`.
 

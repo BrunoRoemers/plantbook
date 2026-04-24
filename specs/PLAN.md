@@ -114,10 +114,12 @@ When the seeder visits a tray page with the seeder secret in the URL:
 
 ```
 content/
-  seeds/
-    tomato-cherry.md
-    basil.md
-    ...
+  people/
+    bruno/
+      seeds/
+        arugula-speedy.md
+        hot-pepper.md
+        ...
   trays/
     001/
       index.md
@@ -133,13 +135,16 @@ specs/
   tray.jpeg              ← Reference photo of a real 2×6 egg carton with soil (top-down view on wooden table)
 ```
 
-### Seed Markdown (`content/seeds/tomato-cherry.md`)
+### Seed Markdown (`content/people/bruno/seeds/arugula-speedy.md`)
 
 ```markdown
 ---
-name: Cherry Tomato
-description: Small, sweet tomatoes perfect for salads and snacking.
-image: seed-packet.jpg
+name: Arugula
+variety: Speedy
+description: Peppery, deeply lobed leaves with an intense nutty bite that elevates any salad.
+expiry: 2026
+quantity: 1g
+color: '#558B2F'
 ---
 
 Optional longer description here.
@@ -158,18 +163,18 @@ contribution_amount: 5
 contribution_currency: EUR
 cells_per_row: 6
 cells:
-  - tomato-cherry
-  - tomato-cherry
-  - basil
-  - basil
-  - parsley
-  - parsley
-  - mint
-  - mint
-  - chives
-  - chives
-  - oregano
-  - oregano
+  - arugula-speedy
+  - arugula-speedy
+  - leaf-lettuce
+  - leaf-lettuce
+  - spinach
+  - spinach
+  - hot-pepper
+  - hot-pepper
+  - arugula-speedy
+  - leaf-lettuce
+  - spinach
+  - hot-pepper
 created_at: 2026-04-01T12:00:00Z
 ---
 
@@ -177,7 +182,7 @@ created_at: 2026-04-01T12:00:00Z
 
 _Posted by nurturer on 2026-04-01_
 
-I'd love a tray full of herbs and cherry tomatoes for my balcony garden!
+I'd love a tray full of leafy greens and peppers for my balcony garden!
 
 ## Day 3 — Planted!
 
