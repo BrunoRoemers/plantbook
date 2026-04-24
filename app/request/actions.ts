@@ -6,6 +6,7 @@ import { getGitHubBranch, getGitHubRepo, getGitHubToken } from '@/lib/env'
 import { createGitHubCommitService } from '@/lib/git/github'
 import { getNextTrayNumber } from '@/lib/trays'
 import { randomUUID } from 'crypto'
+import yaml from 'js-yaml'
 import { z } from 'zod'
 
 /*
@@ -129,6 +130,15 @@ export async function requestTray(
  * Markdown builder
  */
 
+function escapeHtml(text: string): string {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;')
+}
+
 function buildTrayMarkdown(fields: {
   number: number
   nurturer_name: string
@@ -141,24 +151,20 @@ function buildTrayMarkdown(fields: {
   created_at: string
   message?: string
 }): string {
-  const cellsYaml = fields.cells.map((c) => `  - ${c}`).join('\n')
-  const dateLabel = new Date(fields.created_at).toISOString().slice(0, 10)
+  const frontmatter = yaml.dump(
+    {
+      ...fields,
+      message: undefined,
+      cells_per_row: 6,
+    },
+    { lineWidth: -1 }
+  )
 
-  const body = fields.message?.trim() ? fields.message.trim() : `Tray requested!`
+  const dateLabel = new Date(fields.created_at).toISOString().slice(0, 10)
+  const body = fields.message?.trim() ? escapeHtml(fields.message.trim()) : `Tray requested!`
 
   return `---
-number: ${fields.number}
-nurturer_name: ${fields.nurturer_name}
-nurturer_email: '${fields.nurturer_email}'
-seeder_secret: '${fields.seeder_secret}'
-nurturer_secret: '${fields.nurturer_secret}'
-contribution_amount: ${fields.contribution_amount}
-contribution_currency: ${fields.contribution_currency}
-cells_per_row: 6
-cells:
-${cellsYaml}
-created_at: ${fields.created_at}
----
+${frontmatter}---
 
 ## Day 0 — Seeds Requested
 

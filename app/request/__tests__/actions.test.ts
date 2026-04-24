@@ -118,9 +118,9 @@ describe('requestTray success', () => {
 
     const markdown = mockCommitFiles.mock.calls[0][0].files[0].content
     expect(markdown).toContain('nurturer_name: Alice')
-    expect(markdown).toContain("nurturer_email: 'encrypted:")
-    expect(markdown).toContain("seeder_secret: 'encrypted:")
-    expect(markdown).toContain("nurturer_secret: 'encrypted:")
+    expect(markdown).toMatch(/nurturer_email: '?encrypted:/)
+    expect(markdown).toMatch(/seeder_secret: '?encrypted:/)
+    expect(markdown).toMatch(/nurturer_secret: '?encrypted:/)
     expect(markdown).not.toContain('alice@example.com')
   })
 
@@ -138,6 +138,48 @@ describe('requestTray success', () => {
 
     const markdown = mockCommitFiles.mock.calls[0][0].files[0].content
     expect(markdown).toContain('Tray requested!')
+  })
+})
+
+/*
+ * Sanitization
+ */
+
+describe('requestTray sanitization', () => {
+  it('neutralizes YAML injection via nurturer_name', async () => {
+    await requestTray(null, makeFormData({ name: "evil\nnurturer_email: 'hacked'" }))
+
+    const markdown = mockCommitFiles.mock.calls[0][0].files[0].content
+    const fmLines = markdown.split('---')[1].split('\n')
+    const emailLines = fmLines.filter((l: string) => l.startsWith('nurturer_email:'))
+    expect(emailLines).toHaveLength(1)
+    expect(emailLines[0]).not.toContain('hacked')
+  })
+
+  it('neutralizes YAML injection via cell values', async () => {
+    await requestTray(null, makeFormData({ 'cell-0': "basil\ncreated_at: '1999-01-01'" }))
+
+    const markdown = mockCommitFiles.mock.calls[0][0].files[0].content
+    const fmLines = markdown.split('---')[1].split('\n')
+    const createdLines = fmLines.filter((l: string) => l.startsWith('created_at:'))
+    expect(createdLines).toHaveLength(1)
+    expect(createdLines[0]).not.toContain('1999')
+  })
+
+  it('escapes HTML in the message body', async () => {
+    await requestTray(null, makeFormData({ message: '<script>alert("xss")</script>' }))
+
+    const markdown = mockCommitFiles.mock.calls[0][0].files[0].content
+    expect(markdown).not.toContain('<script>')
+    expect(markdown).toContain('&lt;script&gt;')
+  })
+
+  it('escapes HTML tags in message while preserving text', async () => {
+    await requestTray(null, makeFormData({ message: 'I <3 herbs & <iframe src="evil.com">' }))
+
+    const markdown = mockCommitFiles.mock.calls[0][0].files[0].content
+    expect(markdown).not.toContain('<iframe')
+    expect(markdown).toContain('I &lt;3 herbs &amp; &lt;iframe src=&quot;evil.com&quot;&gt;')
   })
 })
 
