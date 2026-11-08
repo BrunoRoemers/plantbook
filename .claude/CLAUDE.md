@@ -26,4 +26,4 @@ PlantBook connects gardeners through the plants they grow and give away: QR tags
 - Setting up the sandbox, running the app, Playwright screenshots: `sandbox-setup` skill
 
 ## Next.js
-@AGENTS.md
+@../AGENTS.md
