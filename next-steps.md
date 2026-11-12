@@ -1,5 +1,5 @@
-- ask to come up with names for the entities
-- ask to make ERD?
-- scope a well-defined feature and let claude implement it
-- technical and prompt guardrails: TDD
-- set up AGENTS.md: TDD, tech used, define workflow (from idea to scoping to implementation to testing)
+- configure Neon DB
+- use drizzle or something else?
+- install BetterAuth
+- figure out what good architecture is and put it in place (business logic layer)
+- try out the new skills: scope a well-defined feature and let claude implement it
