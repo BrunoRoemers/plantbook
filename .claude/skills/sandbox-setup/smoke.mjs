@@ -1,4 +1,4 @@
-import { chromium, devices } from 'playwright';
+import { chromium, devices } from '@playwright/test';
 
 const [url = 'http://localhost:3000', out = 'smoke.png'] = process.argv.slice(2);
 
