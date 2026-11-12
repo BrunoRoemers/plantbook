@@ -20,6 +20,6 @@ Postgres 18 everywhere: [Neon](https://neon.com) in production and previews, Pos
    ```bash
    psql -c "CREATE ROLE plantbook LOGIN PASSWORD 'plantbook';"
    psql -c "CREATE DATABASE plantbook OWNER plantbook;"
-   psql -d plantbook -c "CREATE EXTENSION btree_gist;"
+   psql -c "CREATE DATABASE plantbook_test OWNER plantbook;" # for `npm test`
    ```
 3. `cp .env.example .env.local`.

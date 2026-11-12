@@ -44,8 +44,7 @@ sudo pg_ctlcluster 18 main start 2>/dev/null; pg_lsclusters   # 18 main must be 
 sudo -u postgres psql -v ON_ERROR_STOP=1 <<'SQL'
 SELECT 'CREATE ROLE plantbook LOGIN PASSWORD ''plantbook''' WHERE NOT EXISTS (SELECT FROM pg_roles WHERE rolname = 'plantbook')\gexec
 SELECT 'CREATE DATABASE plantbook OWNER plantbook' WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'plantbook')\gexec
-\c plantbook
-CREATE EXTENSION IF NOT EXISTS btree_gist;
+SELECT 'CREATE DATABASE plantbook_test OWNER plantbook' WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'plantbook_test')\gexec
 SQL
 [ -f .env.local ] || cp .env.example .env.local
 psql postgresql://plantbook:plantbook@localhost:5432/plantbook -c 'select version()'
