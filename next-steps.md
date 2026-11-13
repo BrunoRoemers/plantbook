@@ -1,5 +1,4 @@
-- configure Neon DB
-- use drizzle or something else?
-- install BetterAuth
+- start first feature; run /spec then start a fresh sesh to impl
 - figure out what good architecture is and put it in place (business logic layer)
 - try out the new skills: scope a well-defined feature and let claude implement it
+- remove /api/health because it exposes internal details to the public

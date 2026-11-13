@@ -11,11 +11,16 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
-    "check": "npm run typecheck && npm run lint && npm run test"
+    "check": "npm run typecheck && npm run lint && npm run test",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "auth:generate": "auth generate --config src/lib/auth.ts --output src/db/schema/auth.ts",
+    "vercel-build": "drizzle-kit migrate && next build"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",
     "@vercel/functions": "^3.10.4",
+    "better-auth": "^1.7.14",
     "class-variance-authority": "^0.7.1",
     "cn": "^0.5.2",
     "drizzle-orm": "^0.45.4",
@@ -38,6 +43,9 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@vitejs/plugin-react": "^6.3.0",
+    "auth": "^1.7.14",
+    "drizzle-kit": "^0.31.11",
+    "drizzle-seed": "^0.3.1",
     "eslint": "^9",
     "eslint-config-next": "16.4.5",
     "jsdom": "^31.0.0",

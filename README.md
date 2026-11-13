@@ -23,3 +23,4 @@ Postgres 18 everywhere: [Neon](https://neon.com) in production and previews, Pos
    psql -c "CREATE DATABASE plantbook_test OWNER plantbook;" # for `npm test`
    ```
 3. `cp .env.example .env.local`.
+4. `npm run db:migrate`.

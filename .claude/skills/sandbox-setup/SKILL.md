@@ -48,6 +48,7 @@ SELECT 'CREATE DATABASE plantbook_test OWNER plantbook' WHERE NOT EXISTS (SELECT
 SQL
 [ -f .env.local ] || cp .env.example .env.local
 psql postgresql://plantbook:plantbook@localhost:5432/plantbook -c 'select version()'
+npm run db:migrate
 ```
 
 If the apt sources have no `postgresql-18`, add the PGDG repo first: `sudo apt-get install -y postgresql-common && sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y`.

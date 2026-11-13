@@ -1,5 +1,10 @@
+import nextEnv from '@next/env'
 import react from '@vitejs/plugin-react'
 import { configDefaults, defineConfig } from 'vitest/config'
+
+// Load .env.test the way Next.js would (NODE_ENV is "test" under Vitest, so
+// .env.local is skipped). Global setup and test workers inherit it.
+nextEnv.loadEnvConfig(process.cwd())
 
 export default defineConfig({
   plugins: [react()],
@@ -24,7 +29,8 @@ export default defineConfig({
           environment: 'node',
           include: ['**/*.db.test.ts'],
           exclude: [...configDefaults.exclude, 'e2e/**'],
-          setupFiles: ['./src/test/load-env.ts'],
+          globalSetup: ['./src/test/db-global-setup.ts'],
+          setupFiles: ['./src/test/db-setup.ts'],
           fileParallelism: false,
         },
       },

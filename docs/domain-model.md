@@ -12,7 +12,7 @@ Where possible, the word the gardener sees and the name in the code are the same
 | **Spot** | `spot` | Whatever a tag is attached to: the unit that makes sense to the gardener. A tray, pot, egg carton, planter, a row in the vegetable plot, the place next to the rhubarb. Free-form `kind` + `name`. |
 | **Plant** / **Plants** | `plant` | One or more plants of the same kind that share a history from some point on: "12 Yellow Pear tomatoes", "the rhubarb". Has an optional, approximate `quantity`. |
 | **Note** | `note` | Text and/or photos on a timeline, about one or more plants. |
-| **Gardener** | `user` | An account (passwordless, magic link / email code). Optional until someone wants it. |
+| **Gardener** | `user` | Anyone who writes. Starts anonymous (per browser); an email makes it last. See [decision 003](decisions/003-identity.md). |
 | *(tagged)* | `spot_tag` row | Tag is on a spot, from when to when. |
 | *"in this tray since …"* | `plant_spot` row | Plant lives in a spot, from when to when. |
 | **Caretaker** / *"cared for by"* | `plant_user` row | User looks after a plant, from when to when. |
@@ -100,16 +100,16 @@ erDiagram
     }
     NOTE {
         uuid id PK
-        uuid author_id FK "nullable: anonymous tag holder"
-        string author_name "nullable; for anonymous posts"
+        uuid author_id FK "anonymous or email user"
         text body
         timestamp occurred_at "can be backdated"
         timestamp created_at
     }
     USER {
         uuid id PK
-        string email UK
-        string display_name
+        string email UK "placeholder while anonymous"
+        string name
+        boolean is_anonymous
         timestamp created_at
     }
     SPOT_TAG {
@@ -182,5 +182,5 @@ Care actions (watered, fertilised), observations (germinated, first flower) and 
 - All plant and spot pages are **publicly readable**.
 - Holding a **tag secret** gives edit rights to the tag's current spot and the plants currently in it.
 - A **caretaker** (open `plant_user` row) can edit their plants without scanning.
-- Unowned plant + tag scanned in a logged-in session → offer to **adopt**.
-- Escape hatch (later): the caretaker can make a plant read-only for anyone not logged in.
+- Unowned plant + tag scanned → offer to **adopt**, and suggest adding an email so the plant isn't lost with the browser.
+- Escape hatch (later): the caretaker can make a plant read-only by default. Only caretakers will be able to make edits.

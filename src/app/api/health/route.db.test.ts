@@ -1,13 +1,9 @@
-import { afterAll, expect, test, vi } from 'vitest'
-
-import { pool } from '@/db'
+import { expect, test, vi } from 'vitest'
 
 import { GET } from './route'
 
 // connection() needs a Next.js request context; outside one there's nothing to defer.
 vi.mock('next/server', () => ({ connection: async () => {} }))
-
-afterAll(() => pool.end())
 
 test('reports the database version', async () => {
   const res = await GET()
