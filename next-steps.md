@@ -1,4 +1,5 @@
-- start first feature; run /spec then start a fresh sesh to impl
+- start first feature; run /spec then /implement
 - figure out what good architecture is and put it in place (business logic layer)
-- try out the new skills: scope a well-defined feature and let claude implement it
-- remove /api/health because it exposes internal details to the public
+- add instruction to track branching in our convos
+  (worklog of the goal, current instructions, owners, unfinished work and decisions.
+  Reconcile guidance with work already underway and update the relevant entries.)
