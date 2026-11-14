@@ -7,7 +7,7 @@ import { TagGenerator } from './tag-generator'
 export default function TempTagsPage() {
   return (
     <main className="mx-auto flex max-w-sm flex-col gap-4 p-4">
-      <h1 className="text-xl font-semibold">Unsafe Tags</h1>
+      <h1 className="text-xl font-semibold">Unsafe Demo Tags</h1>
       <Suspense>
         <Tags />
       </Suspense>

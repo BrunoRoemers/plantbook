@@ -8,7 +8,7 @@ import { generateUnsafeTag } from './actions'
 import { TagCard } from './tag-card'
 
 export function TagGenerator({ origin }: { origin: string }) {
-  const [tags, setTags] = useState<{ secret: string }[]>([{secret: '3nebV4aj0mql6PPW7oh2-g'}])
+  const [tags, setTags] = useState<{ secret: string }[]>([])
   const [pending, startTransition] = useTransition()
 
   function generate() {
@@ -24,7 +24,7 @@ export function TagGenerator({ origin }: { origin: string }) {
         <TagCard key={tag.secret} tag={tag} origin={origin} />
       ))}
       <Button onClick={generate} disabled={pending}>
-        Generate Next Tag
+        Generate Tag
       </Button>
     </>
   )
