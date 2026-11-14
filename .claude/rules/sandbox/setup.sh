@@ -30,6 +30,13 @@ if ! mountpoint -q node_modules; then
 fi
 mountpoint -q node_modules || { echo "FAILED: node_modules is not a mountpoint"; exit 1; }
 
+# .next: the sandbox's own build output and Turbopack cache, so a dev server on the Mac can't corrupt it.
+if ! mountpoint -q .next; then
+  mkdir -p ~/.sandbox/next .next
+  sudo mount --bind ~/.sandbox/next .next
+fi
+mountpoint -q .next || echo "FAILED: .next is not a mountpoint"
+
 # Node: the major version from package.json "engines"
 node_major=$(grep -oP '"node": "\K[0-9]+' package.json)
 [ "$(node -v 2>/dev/null | grep -oP '^v\K[0-9]+')" = "$node_major" ] \
