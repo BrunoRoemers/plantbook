@@ -24,7 +24,6 @@ PlantBook connects gardeners through the plants they grow and give away: QR tags
 - `npm run dev`: http://localhost:3000
 - `npm run check`: typecheck + lint + Vitest
 - `npm run test:e2e`: Playwright tests in `e2e/` at iPhone 13 size (starts the dev server if needed)
-- Setting up the sandbox, running the app, Playwright screenshots: `sandbox-setup` skill
 
 ## Next.js
 @../AGENTS.md
