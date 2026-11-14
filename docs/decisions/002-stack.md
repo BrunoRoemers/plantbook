@@ -14,7 +14,7 @@ Already in place: Next.js 16 (App Router), React 19, TypeScript, Tailwind 4, sha
 | Migrations | `drizzle-kit migrate` on the unpooled URL, during the Vercel build | Each preview's database branch is migrated before it deploys. |
 | Auth | Better Auth, passwordless (email OTP / magic link), Drizzle adapter, UUID ids | Accounts stay optional. Its `user` table is the domain model's `user`. |
 | Email | Resend | Free tier. Logs to the console in development. |
-| Photo storage | Probably Google Cloud Storage | Generous free tier. Decided when a spec needs it. |
+| Photo storage | Probably Google Cloud Storage, or Neon (includes branching) | Generous free tier. Decided when a spec needs it. |
 | Unit and integration tests | Vitest + Testing Library; integration tests against a local test database | Fast, native TypeScript and ESM, covered by the Next.js docs. |
 | End-to-end tests | `@playwright/test`, phone viewport | The scan flow is a phone flow. |
 | Quality gate | `npm run check` = typecheck + lint + Vitest | One command defines "done". |
