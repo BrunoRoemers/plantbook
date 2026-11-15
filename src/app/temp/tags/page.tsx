@@ -1,12 +1,14 @@
 import { headers } from 'next/headers'
 import { Suspense } from 'react'
 
+import { SECRET_LENGTH } from '@/lib/tag-secret'
+
 import { TagGenerator } from './tag-generator'
 
 // Temporary page to kick off development: generates dev tags 1, 2, 3... with deterministic secrets.
 export default function TempTagsPage() {
   return (
-    <main className="mx-auto flex max-w-sm flex-col gap-4 p-4">
+    <main className="mx-auto flex w-full max-w-sm flex-col gap-4 p-4 md:max-w-6xl">
       <h1 className="text-xl font-semibold">Unsafe Demo Tags</h1>
       <Suspense>
         <Tags />
@@ -21,5 +23,5 @@ async function Tags() {
   const host = h.get('x-forwarded-host') ?? h.get('host')
   const proto = h.get('x-forwarded-proto') ?? 'http'
 
-  return <TagGenerator origin={`${proto}://${host}`} />
+  return <TagGenerator detectedOrigin={`${proto}://${host}`} storedSecretLength={SECRET_LENGTH} />
 }
